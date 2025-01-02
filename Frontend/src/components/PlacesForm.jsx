@@ -57,6 +57,17 @@ function PlacesForm() {
         }
     }
 
+    const deletePlace = async () => {
+        if (window.confirm("Are you sure you want to delete this place?")) {
+            try {
+                await axios.delete("/places/" + id);
+                setRedirect(true);
+            } catch (error) {
+                alert("Error deleting the place. Please try again.");
+            }
+        }
+    };
+
     if (redirect) {
         return <Navigate to={"/account/places"} />
     }
@@ -146,8 +157,17 @@ function PlacesForm() {
 
 
                 {/* -------------------------------------button------------------------------- */}
-                <div className="text-center">
-                    <button className="primary mt-8 mb-4 max-w-sm">Save</button>
+                <div className="flex items-center font-medium justify-around">
+                    {id && (
+                        <button
+                            type="button"
+                            className="primary hover:bg-red-500 mt-8 mb-4 max-w-52"
+                            onClick={deletePlace}
+                        >
+                            Delete
+                        </button>
+                    )}
+                    <button className="primary mt-8 mb-4 max-w-52">Save</button>
                 </div>
             </form>
         </div>

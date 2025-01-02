@@ -66,4 +66,16 @@ router.put("/places", async (req, res) => {
 })
 
 
+// -----------------------Delete the places of this id-----------------
+
+router.delete('/places/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await Place.findByIdAndDelete(id);
+        res.status(200).json({ success: true, message: 'Place deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error deleting place', error });
+    }
+});
+
 module.exports = router;
