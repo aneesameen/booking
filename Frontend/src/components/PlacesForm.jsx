@@ -8,7 +8,6 @@ import axios from "axios";
 function PlacesForm() {
 
     const { id } = useParams();
-    console.log(id)
 
     const [title, setTitle] = useState("");
     const [address, setAddress] = useState("");
@@ -20,6 +19,8 @@ function PlacesForm() {
     const [checkOut, setECheckOut] = useState("");
     const [maxGuest, setMaxGuest] = useState(1);
     const [redirect, setRedirect] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+
 
     useEffect(() => {
         if (!id) {
@@ -58,13 +59,11 @@ function PlacesForm() {
     }
 
     const deletePlace = async () => {
-        if (window.confirm("Are you sure you want to delete this place?")) {
-            try {
-                await axios.delete("/places/" + id);
-                setRedirect(true);
-            } catch (error) {
-                alert("Error deleting the place. Please try again.");
-            }
+        try {
+            await axios.delete("/places/" + id);
+            setRedirect(true);
+        } catch (error) {
+            alert("Error deleting the place. Please try again.");
         }
     };
 
@@ -161,15 +160,39 @@ function PlacesForm() {
                     {id && (
                         <button
                             type="button"
-                            className="primary hover:bg-red-500 mt-8 mb-4 max-w-52"
-                            onClick={deletePlace}
+                            className="secondary mt-8 mb-4 max-w-52"
+                            onClick={() => setConfirmDelete(true)}
                         >
                             Delete
                         </button>
+
+
                     )}
                     <button className="primary mt-8 mb-4 max-w-52">Save</button>
                 </div>
             </form>
+            {confirmDelete && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-md shadow-md">
+                        <h2 className="text-lg font-bold mb-4">Confirm Deletion</h2>
+                        <p>Are you sure you want to delete this place?</p>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                className="mr-4 px-4 py-2 bg-gray-300 rounded"
+                                onClick={() => setConfirmDelete(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="px-4 py-2 bg-red-500 text-white rounded"
+                                onClick={deletePlace}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

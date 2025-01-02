@@ -10,6 +10,7 @@ import AccountNav from "../components/AccountNav";
 function ProfilePage() {
 
     const [redirect, setRedirect] = useState(null);
+    const [confirmLogout, setConfirmLogout] = useState(null);
     const { ready, user, setUser } = useContext(UserContext);
 
     let { subpage } = useParams();
@@ -43,7 +44,29 @@ function ProfilePage() {
                 <div className="text-center max-w-sm mx-auto mt-20">
                     logged in as {user?.name} ({user?.email})
                     <br />
-                    <button onClick={logout} className="primary font-medium max-w-sm mt-2 hover:bg-red-400 delay-100">Logout</button>
+                    <button onClick={() => setConfirmLogout(true)} className="primary font-medium max-w-sm mt-2 hover:bg-red-400 transition duration-200">Logout</button>
+                </div>
+            )}
+            {confirmLogout && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-md shadow-md">
+                        <h2 className="text-lg font-bold mb-4">LOGOUT</h2>
+                        <p>Are you sure you want to Logout?</p>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                className="mr-4 px-4 py-2 bg-gray-300 rounded"
+                                onClick={() => setConfirmLogout(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="px-4 py-2 bg-red-500 text-white rounded"
+                                onClick={logout}
+                            >
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
             {subpage === 'places' && (

@@ -19,3 +19,8 @@ button.primary{
     backgroung-color: #0bb2d4;
     @apply bg-primary p-2 w-full text-white rounded-2xl
 }
+
+button.secondary{
+    backgroung-color: #EF4444;
+    @apply bg-secondary p-2 w-full text-white rounded-2xl
+}
