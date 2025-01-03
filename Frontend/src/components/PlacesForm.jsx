@@ -18,6 +18,7 @@ function PlacesForm() {
     const [checkIn, setECheckIn] = useState("");
     const [checkOut, setECheckOut] = useState("");
     const [maxGuest, setMaxGuest] = useState(1);
+    const [price, setPrice] = useState(100);
     const [redirect, setRedirect] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -38,6 +39,7 @@ function PlacesForm() {
             setECheckIn(data?.checkIn);
             setECheckOut(data?.checkOut);
             setMaxGuest(data?.maxGuest);
+            setPrice(data?.price)
         })
     }, [id])
 
@@ -46,13 +48,13 @@ function PlacesForm() {
         if (id) {
             //update an existing place
             await axios.put("/places", {
-                id, title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuest
+                id, title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuest, price
             });
             setRedirect(true);
         } else {
             //create new place
             await axios.post("/places", {
-                title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuest
+                title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuest, price
             });
             setRedirect(true);
         }
@@ -63,7 +65,7 @@ function PlacesForm() {
             await axios.delete("/places/" + id);
             setRedirect(true);
         } catch (error) {
-            alert("Error deleting the place. Please try again.");
+            alert("Error deleting the your accomodation. Please try again.");
         }
     };
 
@@ -124,8 +126,8 @@ function PlacesForm() {
 
                 {/* ------------------------------house rules-------------------------- */}
                 <h2 className="text-2xl font-medium mt-4 pl-1">House Rules</h2>
-                <div className="grid gap-2 sm:grid-cols-3">
-                    <div className="border px-4 rounded-2xl">
+                <div className="grid gap-2 grid-cols-2 lg:grid-cols-4">
+                    <div className="border px-4 pb-1 rounded-2xl">
                         <h3 className="mt-2 mb-2">check-In</h3>
                         <input className=" border border-gray-400 outline-none px-2 rounded-2xl"
                             type="time"
@@ -134,7 +136,7 @@ function PlacesForm() {
                         />
                     </div>
 
-                    <div className="border px-4 rounded-2xl">
+                    <div className="border pb-1 px-4 rounded-2xl">
                         <h3 className="mt-2 mb-2">check-Out</h3>
                         <input className=" border border-gray-400 outline-none px-2 rounded-2xl"
                             type="time"
@@ -150,6 +152,16 @@ function PlacesForm() {
                             min={1}
                             value={maxGuest}
                             onChange={ev => setMaxGuest(ev.target.value)}
+                        />
+                    </div>
+
+                    <div className="border px-4 pb-2 rounded-2xl">
+                        <h3 className="mt-2 mb-2">Price Per Night ₹</h3>
+                        <input className=" border border-gray-400 outline-none px-2 rounded-2xl"
+                            type="number"
+                            min={100}
+                            value={price}
+                            onChange={ev => setPrice(ev.target.value)}
                         />
                     </div>
                 </div>

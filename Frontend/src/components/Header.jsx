@@ -66,7 +66,7 @@ function Header() {
                     </div>
 
                     {openProfile && (
-                        <div className="absolute z-10 border whitespace-nowrap flex gap-2 items-start flex-col px-8 pr-16 py-5 top-12 right-6 rounded-lg shadow shadow-gray-600 profile-dropdown">
+                        <div className="absolute z-10 border bg-white whitespace-nowrap flex gap-2 items-start flex-col px-8 pr-16 py-5 top-12 right-6 rounded-lg shadow shadow-gray-600 profile-dropdown">
                             {user ? (
                                 <>
                                     <Link to={'/account'} className="hover:text-primary hover:underline font-semibold text-lg">

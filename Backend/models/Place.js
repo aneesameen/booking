@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const placeSchema = new mongoose.Schema({
     owner: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'User'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     title: {
         type: String,
@@ -32,6 +33,9 @@ const placeSchema = new mongoose.Schema({
         type: String,
     },
     maxGuest: {
+        type: Number,
+    },
+    price: {
         type: Number,
     }
 });

@@ -10,7 +10,7 @@ function PlacesPage() {
     const [places, setPlaces] = useState("");
 
     useEffect(() => {
-        axios.get("/places").then(({ data }) => {
+        axios.get("/user-places").then(({ data }) => {
             setPlaces(data);
         })
     }, [])
@@ -26,7 +26,7 @@ function PlacesPage() {
             </div>
             <div className="mt-8 grid lg:grid-cols-2 gap-4">
                 {places.length > 0 && places.map(place => (
-                    <Link to={`/account/places/${place._id}`} className="flex cursor-pointer gap-4 bg-gray-300 hover:bg-primary transition duration-500 ease-in-out p-2 rounded-2xl" key={place}>
+                    <Link to={`/account/places/${place._id}`} className="flex cursor-pointer gap-4 bg-gray-300 hover:bg-primary transition duration-500 ease-in-out p-1 rounded-2xl" key={place}>
                         <div className=" flex w-32 h-32 bg-gray-300 rounded-2xl shrink-0">
                             {place.photos.length > 0 && (
                                 <img className="object-cover rounded-2xl" src={`${BASE_URL}uploads/` + place?.photos[0]} alt="image" />

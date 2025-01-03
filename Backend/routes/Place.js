@@ -4,6 +4,8 @@ const Place = require("../models/Place.js");
 const jwt = require("jsonwebtoken");
 const jwtSecret = 'hjwdj$jhgjvgg54e6rgvjh68';
 
+const User = require("../models/User");
+
 
 // ----------------------Add a new place-----------------
 
@@ -11,23 +13,23 @@ router.post("/places", (req, res) => {
     const { token } = req.cookies;
     const {
         title, address, addedPhotos, description,
-        perks, extraInfo, checkIn, checkOut, maxGuest
+        perks, extraInfo, checkIn, checkOut, maxGuest, price
     } = req.body;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         if (err) throw err;
         const placeDoc = await Place.create({
             owner: userData.id,
             title, address, photos: addedPhotos, description,
-            perks, extraInfo, checkIn, checkOut, maxGuest
+            perks, extraInfo, checkIn, checkOut, maxGuest, price
         });
         res.json(placeDoc);
     })
 })
 
 
-// -----------------------Get all places-----------------
+// -----------------------Get all places of one user-----------------
 
-router.get("/places", (req, res) => {
+router.get("/user-places", (req, res) => {
     const { token } = req.cookies;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         const { id } = userData;
@@ -36,20 +38,39 @@ router.get("/places", (req, res) => {
 })
 
 
-// -----------------------Get one places of this id-----------------
+// -----------------------Get one place of this id-----------------
+
+// router.get("/places/:id", async (req, res) => {
+//     const { id } = req.params;
+//     res.json(await Place.findById(id))
+// })
+
+// --------------------------------------demo------------------
+
 
 router.get("/places/:id", async (req, res) => {
     const { id } = req.params;
-    res.json(await Place.findById(id))
-})
+    try {
+        const place = await Place.findById(id).populate('owner', 'name email',); // Populate owner and retrieve only the 'name' field
+        if (!place) {
+            return res.status(404).json({ message: "Place not found" });
+        }
+        res.json(place);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error retrieving place information" });
+    }
+});
 
-// -----------------------update the places of this id-----------------
+
+
+// -----------------------update the place of this id-----------------
 
 router.put("/places", async (req, res) => {
     const { token } = req.cookies;
     const {
         id, title, address, addedPhotos, description,
-        perks, extraInfo, checkIn, checkOut, maxGuest
+        perks, extraInfo, checkIn, checkOut, maxGuest, price
     } = req.body;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         if (err) throw err;
@@ -57,7 +78,7 @@ router.put("/places", async (req, res) => {
         if (userData.id === placeDoc.owner.toString()) {
             placeDoc.set({
                 title, address, photos: addedPhotos, description,
-                perks, extraInfo, checkIn, checkOut, maxGuest
+                perks, extraInfo, checkIn, checkOut, maxGuest, price
             })
             await placeDoc.save()
             res.json("ok");
@@ -66,7 +87,7 @@ router.put("/places", async (req, res) => {
 })
 
 
-// -----------------------Delete the places of this id-----------------
+// -----------------------Delete the place of this id-----------------
 
 router.delete('/places/:id', async (req, res) => {
     const { id } = req.params;
@@ -77,5 +98,17 @@ router.delete('/places/:id', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error deleting place', error });
     }
 });
+
+
+// -----------------------Get all places for indexPage-----------------
+
+router.get("/allplaces", async (req, res) => {
+    try {
+        const allPlaces = await Place.find();
+        res.json(allPlaces);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch all places' });
+    }
+})
 
 module.exports = router;
