@@ -4,8 +4,6 @@ const Place = require("../models/Place.js");
 const jwt = require("jsonwebtoken");
 const jwtSecret = 'hjwdj$jhgjvgg54e6rgvjh68';
 
-const User = require("../models/User");
-
 
 // ----------------------Add a new place-----------------
 
@@ -38,14 +36,14 @@ router.get("/user-places", (req, res) => {
 })
 
 
-// -----------------------Get one place of this id-----------------
+// --------------------demo--------------------
 
 // router.get("/places/:id", async (req, res) => {
 //     const { id } = req.params;
 //     res.json(await Place.findById(id))
 // })
 
-// --------------------------------------demo------------------
+// --------------------------------------Get one place of this id------------------
 
 
 router.get("/places/:id", async (req, res) => {

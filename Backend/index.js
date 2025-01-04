@@ -3,6 +3,7 @@ const cors = require('cors');
 const authRoute = require("./routes/auth.js");
 const uploadphoto = require("./routes/UploadByLink.js");
 const newplace = require("./routes/Place.js");
+const booking = require("./routes/Booking.js");
 const { default: mongoose } = require("mongoose");
 const cookieParser = require("cookie-parser");
 require('dotenv').config()
@@ -26,6 +27,7 @@ mongoose.connect(process.env.MONGO_URL);
 app.use(authRoute);
 app.use(uploadphoto);
 app.use(newplace);
+app.use(booking);
 
 
 

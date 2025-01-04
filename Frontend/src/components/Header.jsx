@@ -2,9 +2,10 @@ import { FaHotel } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import axios from "axios";
 
 function Header() {
     const [openProfile, setOpenProfile] = useState(false);
@@ -29,6 +30,7 @@ function Header() {
     }, []);
 
     const { user } = useContext(UserContext);
+
 
     return (
         <div>
@@ -78,9 +80,9 @@ function Header() {
                                     <Link to={'/account/places'} className="hover:text-primary hover:underline font-semibold text-lg">
                                         My Accommodations
                                     </Link>
-                                    <h1 className="hover:text-red-600 hover:underline font-semibold text-lg">
+                                    {/* <h1 className="hover:text-red-600 hover:underline font-semibold text-lg">
                                         Logout
-                                    </h1>
+                                    </h1> */}
                                 </>
                             ) : (
                                 <>
