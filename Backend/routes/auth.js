@@ -68,6 +68,35 @@ router.get("/profile", (req, res) => {
 })
 
 
+// --------------------Update profile of User-------------------
+
+router.put("/user", async (req, res) => {
+    const { id, name, email, password } = req.body;
+
+    try {
+        const updatedFields = { name, email };
+        if (password) {
+            const hashedPassword = bcrypt.hashSync(password, bcryptSalt);
+            updatedFields.password = hashedPassword;
+        }
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            updatedFields,
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: "User not found." });
+        }
+        res.json(updatedUser);
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
+
+
 // --------------------logout User-------------------
 
 router.post("/logout", (req, res) => {

@@ -12,6 +12,7 @@ import PlacesForm from './components/PlacesForm';
 import SinglePlacePage from './pages/SinglePlacePage';
 import BookingsPage from './pages/BookingsPage';
 import SingleBookingPage from './pages/SingleBookingPage';
+import { SearchProvider } from './context/SearchContext';
 
 
 axios.defaults.baseURL = 'http://localhost:4000';
@@ -21,20 +22,22 @@ function App() {
 
   return (
     <UserContextProvider>
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route index element={<IndexPage />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Register />} />
-          <Route path='/account' element={<ProfilePage />} />
-          <Route path='/account/places' element={<PlacesPage />} />
-          <Route path='/account/bookings' element={<BookingsPage />} />
-          <Route path='/account/bookings/:id' element={<SingleBookingPage />} />
-          <Route path='/account/places/new' element={<PlacesForm />} />
-          <Route path='/account/places/:id' element={<PlacesForm />} />
-          <Route path='/place/:id' element={<SinglePlacePage />} />
-        </Route>
-      </Routes>
+      <SearchProvider>
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route index element={<IndexPage />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Register />} />
+            <Route path='/account' element={<ProfilePage />} />
+            <Route path='/account/places' element={<PlacesPage />} />
+            <Route path='/account/bookings' element={<BookingsPage />} />
+            <Route path='/account/bookings/:id' element={<SingleBookingPage />} />
+            <Route path='/account/places/new' element={<PlacesForm />} />
+            <Route path='/account/places/:id' element={<PlacesForm />} />
+            <Route path='/place/:id' element={<SinglePlacePage />} />
+          </Route>
+        </Routes>
+      </SearchProvider>
     </UserContextProvider>
 
   )

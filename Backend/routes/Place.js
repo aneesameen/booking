@@ -109,4 +109,31 @@ router.get("/allplaces", async (req, res) => {
     }
 })
 
+
+// -----------------------search for the places-----------------
+
+router.get('/search', async (req, res) => {
+    const query = req.query.query;
+    if (!query) {
+        return res.status(400).json({ message: 'Query is required' });
+    }
+
+    try {
+        // Basic search, can be customized to search in specific fields
+        const results = await Place.find({
+            $or: [
+                { address: { $regex: query, $options: 'i' } }, // Search in address field
+                { title: { $regex: query, $options: 'i' } },    // Search in title field
+                { description: { $regex: query, $options: 'i' } }    // Search in title field
+            ]
+        });
+
+        res.json(results);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
 module.exports = router;

@@ -5,6 +5,7 @@ import LoadingScreen from "../components/LoadingScreen";
 import axios from "axios";
 import PlacesPage from "./PlacesPage";
 import AccountNav from "../components/AccountNav";
+import ProfileCard from "../components/ProfileCard";
 
 
 function ProfilePage() {
@@ -40,9 +41,12 @@ function ProfilePage() {
     return (
         <div>
             <AccountNav />
+
+            <ProfileCard user={user} />
+
             {subpage === "profile" && (
-                <div className="text-center max-w-sm mx-auto mt-20">
-                    logged in as {user?.name} ({user?.email})
+                <div className="text-center max-w-sm mx-auto mt-10">
+                    {/* logged in as {user?.name} ({user?.email}) */}
                     <br />
                     <button onClick={() => setConfirmLogout(true)} className="primary font-medium max-w-sm mt-2 hover:bg-red-400 transition duration-200">Logout</button>
                 </div>

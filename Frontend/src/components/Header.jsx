@@ -1,14 +1,16 @@
 import { FaHotel } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUser } from "react-icons/fa";
 import { Link, Navigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
-import axios from "axios";
+import { BASE_URL } from "../Constants";
+import Search from "./Search";
+import { useSearch } from "../context/SearchContext";
 
 function Header() {
     const [openProfile, setOpenProfile] = useState(false);
+
 
     const openDialog = () => {
         setOpenProfile(!openProfile);
@@ -22,34 +24,24 @@ function Header() {
         };
 
         document.addEventListener('mousedown', handleClickOutside);
-
-        // Clean up event listener on component unmount
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
     const { user } = useContext(UserContext);
+    const { clearSaerchResults } = useSearch()
 
 
     return (
         <div>
             <header className="flex justify-between">
-                <Link to={'/'} className="text-primary flex items-center gap-1">
+                <Link to={'/'} onClick={clearSaerchResults} className="text-primary flex items-center gap-1">
                     <FaHotel className="w-8 h-8" />
                     <span className="font-bold text-xl">Airbnb</span>
                 </Link>
 
-                <div className="hidden md:flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300">
-                    <div>Anywhere</div>
-                    <div className="border-l border-gray-300"></div>
-                    <div>anyweek</div>
-                    <div className="border-l border-gray-300"></div>
-                    <div>guests</div>
-                    <button className="bg-primary text-white p-1 rounded-full">
-                        <IoSearch />
-                    </button>
-                </div>
+                <Search />
 
                 <div className="relative cursor-pointer">
                     <div
@@ -61,7 +53,7 @@ function Header() {
                             <FaUser />
                         </div>
                         {!!user && (
-                            <div className="font-medium capitalize">
+                            <div className="hidden md:flex font-medium capitalize">
                                 {user?.name}
                             </div>
                         )}
