@@ -119,12 +119,11 @@ router.get('/search', async (req, res) => {
     }
 
     try {
-        // Basic search, can be customized to search in specific fields
         const results = await Place.find({
             $or: [
-                { address: { $regex: query, $options: 'i' } }, // Search in address field
-                { title: { $regex: query, $options: 'i' } },    // Search in title field
-                { description: { $regex: query, $options: 'i' } }    // Search in title field
+                { address: { $regex: query, $options: 'i' } },
+                { title: { $regex: query, $options: 'i' } },
+                { description: { $regex: query, $options: 'i' } }
             ]
         });
 
